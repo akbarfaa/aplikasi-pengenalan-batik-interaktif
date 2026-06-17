@@ -1,0 +1,167 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ivory: var(--ivory);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-copper: var(--copper);
+  --color-maroon: var(--maroon);
+  --color-indigo-batik: var(--indigo-batik);
+  --color-teal-royal: var(--teal-royal);
+  --color-terracotta: var(--terracotta);
+  --color-sand: var(--sand);
+  --color-amber-glow: var(--amber-glow);
+
+  --font-display: "Cormorant Garamond", "Playfair Display", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-script: "Cinzel", serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Batik palette */
+  --ivory: oklch(0.97 0.015 80);
+  --gold: oklch(0.78 0.13 80);
+  --gold-soft: oklch(0.88 0.09 85);
+  --copper: oklch(0.55 0.13 45);
+  --maroon: oklch(0.32 0.11 25);
+  --indigo-batik: oklch(0.28 0.09 265);
+  --teal-royal: oklch(0.45 0.08 200);
+  --terracotta: oklch(0.55 0.14 35);
+  --sand: oklch(0.85 0.05 75);
+  --amber-glow: oklch(0.82 0.16 75);
+
+  /* Semantic — dark museum default */
+  --background: oklch(0.14 0.02 30);
+  --foreground: oklch(0.95 0.02 80);
+  --card: oklch(0.18 0.025 30);
+  --card-foreground: oklch(0.95 0.02 80);
+  --popover: oklch(0.16 0.025 30);
+  --popover-foreground: oklch(0.95 0.02 80);
+  --primary: var(--gold);
+  --primary-foreground: oklch(0.16 0.025 30);
+  --secondary: oklch(0.24 0.04 30);
+  --secondary-foreground: var(--ivory);
+  --muted: oklch(0.22 0.03 30);
+  --muted-foreground: oklch(0.72 0.04 75);
+  --accent: var(--copper);
+  --accent-foreground: var(--ivory);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.32 0.04 50 / 60%);
+  --input: oklch(0.3 0.04 50 / 70%);
+  --ring: var(--gold);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Batik motif background SVGs as data URIs */
+@utility bg-parang {
+  background-color: oklch(0.14 0.02 30);
+  background-image:
+    radial-gradient(circle at 20% 20%, oklch(0.78 0.13 80 / 0.08), transparent 50%),
+    radial-gradient(circle at 80% 70%, oklch(0.55 0.13 45 / 0.1), transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><g fill='none' stroke='%23d4a44a' stroke-opacity='0.08' stroke-width='1.2'><path d='M0 60 Q30 0 60 60 T120 60'/><path d='M0 90 Q30 30 60 90 T120 90'/><path d='M0 30 Q30 -30 60 30 T120 30'/></g></svg>");
+  background-size: auto, auto, 240px 240px;
+}
+
+@utility bg-kawung {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='%23d4a44a' stroke-opacity='0.12'><ellipse cx='20' cy='20' rx='14' ry='8'/><ellipse cx='60' cy='20' rx='14' ry='8'/><ellipse cx='20' cy='60' rx='14' ry='8'/><ellipse cx='60' cy='60' rx='14' ry='8'/><ellipse cx='40' cy='40' rx='8' ry='14'/></g></svg>");
+  background-size: 160px 160px;
+}
+
+@utility bg-megamendung {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'><g fill='none' stroke='%234a78b8' stroke-opacity='0.18' stroke-width='1.5'><path d='M10 60 Q30 30 50 60 T90 60 T130 60 T170 60'/><path d='M10 75 Q30 45 50 75 T90 75 T130 75 T170 75'/><path d='M10 45 Q30 15 50 45 T90 45 T130 45 T170 45'/></g></svg>");
+  background-size: 400px 200px;
+}
+
+@utility text-gradient-gold {
+  background: linear-gradient(135deg, oklch(0.92 0.08 85), oklch(0.78 0.13 80), oklch(0.55 0.13 45));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility border-gold-glow {
+  border: 1px solid oklch(0.78 0.13 80 / 0.4);
+  box-shadow:
+    0 0 0 1px oklch(0.78 0.13 80 / 0.1),
+    0 10px 40px -10px oklch(0.78 0.13 80 / 0.3),
+    inset 0 1px 0 oklch(0.95 0.05 85 / 0.15);
+}
+
+@utility glass-museum {
+  background: linear-gradient(135deg, oklch(0.2 0.03 40 / 0.6), oklch(0.14 0.02 30 / 0.4));
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid oklch(0.78 0.13 80 / 0.18);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@utility shimmer-gold {
+  background: linear-gradient(110deg, transparent 35%, oklch(0.92 0.08 85 / 0.4) 50%, transparent 65%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@utility float-slow {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@utility spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
