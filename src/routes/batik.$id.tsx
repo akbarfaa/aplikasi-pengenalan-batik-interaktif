@@ -50,8 +50,15 @@ function BatikDetail() {
             className="relative flex items-center justify-center"
           >
             <div className="absolute w-[420px] h-[420px] rounded-full bg-gradient-radial from-gold/20 to-transparent blur-2xl" />
-            <div className="border-gold-glow rounded-3xl">
-              <BatikMotif motif={b.motif} colors={b.colors} size={420} />
+            <div className="border-gold-glow rounded-3xl overflow-hidden w-[420px] h-[420px]">
+              <motion.img
+                src={b.heroImage}
+                alt={b.name}
+                className="w-full h-full object-cover"
+                initial={{ filter: "blur(10px)", opacity: 0 }}
+                animate={{ filter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.6 }}
+              />
             </div>
           </motion.div>
 

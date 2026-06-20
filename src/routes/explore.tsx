@@ -107,7 +107,7 @@ function Explore() {
                         className="flex items-center gap-3 p-2 rounded-lg hover:bg-gold/10 transition-colors group"
                       >
                         <div className="w-10 h-10 rounded-md overflow-hidden border border-gold/30">
-                          <BatikMotif motif={b.motif} colors={b.colors} size={40} animated={false} />
+                          <img src={b.heroImage} alt={b.name} className="w-full h-full object-cover" />
                         </div>
                         <div className="flex-1">
                           <div className="text-sm font-medium text-foreground">{b.name}</div>
@@ -150,9 +150,11 @@ function Explore() {
                   className="group block glass-museum rounded-2xl overflow-hidden border-gold-glow"
                 >
                   <div className="aspect-square overflow-hidden">
-                    <div className="w-full h-full transition-transform duration-700 group-hover:scale-110">
-                      <BatikMotif motif={b.motif} colors={b.colors} size={400} animated={false} />
-                    </div>
+                    <img
+                      src={b.heroImage}
+                      alt={b.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   </div>
                   <div className="p-5">
                     <div className="text-[10px] tracking-[0.3em] uppercase text-gold/70">{b.era}</div>

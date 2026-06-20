@@ -1,3 +1,10 @@
+import parangImg from "@/Gambar Batik/Batik Parang.jpg";
+import kawungImg from "@/Gambar Batik/Batik Kawung.jpg";
+import megamendungImg from "@/Gambar Batik/batik mega mendung.png";
+import sekarjagadImg from "@/Gambar Batik/Batik sekar jagad.jpg";
+import truntumImg from "@/Gambar Batik/Batik truntum.jpg";
+import lasemImg from "@/Gambar Batik/Batik Lasem.jpg";
+
 export type Bilingual = { en: string; id: string };
 
 export type Batik = {
@@ -13,6 +20,7 @@ export type Batik = {
   history: Bilingual;
   symbolism: Bilingual[];
   documentaryId: string; // youtube id
+  heroImage: string;
 };
 
 export const BATIKS: Batik[] = [
@@ -41,7 +49,8 @@ export const BATIKS: Batik[] = [
       { en: "Courage", id: "Keberanian" },
       { en: "Persistence", id: "Ketekunan" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: parangImg,
   },
   {
     id: "kawung",
@@ -68,7 +77,8 @@ export const BATIKS: Batik[] = [
       { en: "Wisdom", id: "Kebijaksanaan" },
       { en: "Self-control", id: "Pengendalian diri" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: kawungImg,
   },
   {
     id: "megamendung",
@@ -95,7 +105,8 @@ export const BATIKS: Batik[] = [
       { en: "Calmness", id: "Ketenangan" },
       { en: "Cross-cultural love", id: "Cinta lintas budaya" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: megamendungImg,
   },
   {
     id: "sekarjagad",
@@ -122,7 +133,8 @@ export const BATIKS: Batik[] = [
       { en: "Beauty", id: "Keindahan" },
       { en: "Unity", id: "Persatuan" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: sekarjagadImg,
   },
   {
     id: "truntum",
@@ -149,7 +161,8 @@ export const BATIKS: Batik[] = [
       { en: "Loyalty", id: "Kesetiaan" },
       { en: "Sincerity", id: "Ketulusan" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: truntumImg,
   },
   {
     id: "lasem",
@@ -176,7 +189,8 @@ export const BATIKS: Batik[] = [
       { en: "Endurance", id: "Ketahanan" },
       { en: "Coastal pride", id: "Kebanggaan pesisir" },
     ],
-    documentaryId: "j-Q8L7Y0xkE",
+    documentaryId: "s94JDFvxSsQ",
+    heroImage: lasemImg,
   },
 ];
 
