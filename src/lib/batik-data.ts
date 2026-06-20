@@ -1,9 +1,9 @@
-import parangImg from "@/Gambar Batik/Batik Parang.jpg";
-import kawungImg from "@/Gambar Batik/Batik Kawung.jpg";
-import megamendungImg from "@/Gambar Batik/batik mega mendung.png";
-import sekarjagadImg from "@/Gambar Batik/Batik sekar jagad.jpg";
-import truntumImg from "@/Gambar Batik/Batik truntum.jpg";
-import lasemImg from "@/Gambar Batik/Batik Lasem.jpg";
+import parangImg from "@/Gambar Batik/batik-parang.jpg";
+import kawungImg from "@/Gambar Batik/batik-kawung.jpg";
+import megamendungImg from "@/Gambar Batik/batik-mega-mendung.png";
+import sekarjagadImg from "@/Gambar Batik/batik-sekar-jagad.jpg";
+import truntumImg from "@/Gambar Batik/batik-truntum.jpg";
+import lasemImg from "@/Gambar Batik/batik-lasem.jpg";
 
 export type Bilingual = { en: string; id: string };
 
@@ -205,24 +205,14 @@ export type Province = {
 };
 
 export const PROVINCES: Province[] = [
-  { id: "jateng", name: "Central Java", x: 47, y: 64, batikIds: ["parang", "kawung", "truntum", "lasem"],
+  { id: "jateng", name: "Central Java", x: 32.54, y: 77.8, batikIds: ["parang", "kawung", "truntum", "lasem"],
     blurb: { en: "The royal heartland — Yogyakarta, Solo, Lasem.", id: "Jantung kerajaan — Yogyakarta, Solo, Lasem." } },
-  { id: "jabar", name: "West Java", x: 40, y: 63, batikIds: ["megamendung"],
+  { id: "jabar", name: "West Java", x: 27.04, y: 75.13, batikIds: ["megamendung"],
     blurb: { en: "Cirebon's cloudy heavens and coastal court traditions.", id: "Langit berawan Cirebon dan tradisi keraton pesisir." } },
-  { id: "jatim", name: "East Java", x: 56, y: 64, batikIds: ["sekarjagad"],
+  { id: "jatim", name: "East Java", x: 39.69, y: 77.44, batikIds: ["sekarjagad"],
     blurb: { en: "Madura's bold reds and Tuban's wild flora.", id: "Merah berani Madura dan flora liar Tuban." } },
-  { id: "yogya", name: "Yogyakarta", x: 49, y: 66, batikIds: ["parang", "kawung"],
+  { id: "yogya", name: "Yogyakarta", x: 33.19, y: 81.18, batikIds: ["parang", "kawung"],
     blurb: { en: "Court city, cradle of classical batik.", id: "Kota keraton, sumber batik klasik." } },
-  { id: "bali", name: "Bali", x: 62, y: 68, batikIds: ["sekarjagad"],
-    blurb: { en: "Ritual cloths woven into temple ceremonies.", id: "Kain ritual yang menyatu dengan upacara pura." } },
-  { id: "sumut", name: "North Sumatra", x: 18, y: 50, batikIds: ["lasem"],
-    blurb: { en: "Batak motifs meet coastal trading routes.", id: "Motif Batak bertemu jalur dagang pesisir." } },
-  { id: "jambi", name: "Jambi", x: 22, y: 58, batikIds: ["sekarjagad"],
-    blurb: { en: "Malay royal motifs in ochre and indigo.", id: "Motif kerajaan Melayu dalam oker dan nila." } },
-  { id: "sulsel", name: "South Sulawesi", x: 70, y: 60, batikIds: ["sekarjagad"],
-    blurb: { en: "Bugis-Makassar weaving traditions in batik form.", id: "Tradisi tenun Bugis-Makassar dalam wujud batik." } },
-  { id: "papua", name: "Papua", x: 92, y: 65, batikIds: ["sekarjagad"],
-    blurb: { en: "Cendrawasih and Asmat motifs in modern batik.", id: "Motif cendrawasih dan Asmat dalam batik modern." } },
 ];
 
 export type TimelineEvent = {
