@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useLang } from "@/lib/i18n";
@@ -6,7 +6,6 @@ import { BATIKS } from "@/lib/batik-data";
 import { PageShell } from "@/components/PageShell";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { markCreated } from "@/lib/passport";
-import { BatikMotif } from "@/components/BatikMotif";
 
 export const Route = createFileRoute("/lab")({
   component: Lab,
@@ -230,58 +229,68 @@ function Lab() {
     const darkRatio = colorBuckets.black / (paintedPixels || 1);
 
     // ── 3. ENHANCED MULTI-FACTOR SCORING ───────────────────────────────
+    // Tool usage ratios (normalize so dominant tool matters more)
+    const totalStamps = s.dots + s.waves + s.flowers + 1; // +1 avoid /0
+    const dotRatio = s.dots / totalStamps;
+    const waveRatio = s.waves / totalStamps;
+    const flowerRatio = s.flowers / totalStamps;
+    const brushOnly = s.dots === 0 && s.waves === 0 && s.flowers === 0;
+
     const scores = {
+      // PARANG: diagonal brush strokes + earth/brown tones + low symmetry (2)
+      // Should NOT win just from default settings
       parang:
-        (diagonalRatio > 0.35 ? 25 : diagonalRatio > 0.25 ? 15 : 5) +
-        (earthRatio > 0.3 ? 20 : earthRatio > 0.15 ? 10 : 0) +
-        (warmth > 0.4 ? 10 : 0) +
-        (symmetry === 2 ? 15 : symmetry === 4 ? 5 : 0) +
-        (s.waves * 1.5) +
-        (s.strokes > 20 ? 8 : 0) +
-        (significantColors <= 3 ? 8 : 0) +
-        (coverage > 0.15 ? 5 : 0),
+        (brushOnly && s.strokes > 50 ? 20 : 0) +           // lots of brush strokes, no stamps
+        (diagonalRatio > 0.4 ? 25 : diagonalRatio > 0.3 ? 12 : 0) + // no free baseline
+        (symmetry === 2 ? 20 : 0) +                          // strong signal: low symmetry
+        (earthRatio > 0.5 ? 12 : earthRatio > 0.3 ? 6 : 0) + // reduced earth bonus
+        (s.waves > 0 && s.waves < 5 ? s.waves * 2 : 0) +   // a few waves ok
+        (coverage > 0.25 ? 5 : 0),
 
+      // KAWUNG: dot stamps + 4-fold/8-fold symmetry + geometric regularity
       kawung:
-        (s.dots * 2.5) +
-        (symmetry === 4 ? 20 : symmetry === 8 ? 15 : symmetry === 6 ? 10 : 0) +
-        (regularity > 0.5 ? 18 : regularity > 0.3 ? 10 : 0) +
-        (significantColors <= 3 ? 12 : 0) +
-        (earthRatio > 0.2 ? 8 : 0) +
-        (darkRatio > 0.1 ? 6 : 0) +
-        (coverage < 0.4 ? 5 : 0),
+        (s.dots >= 3 ? 25 : s.dots >= 1 ? 12 : 0) +        // dots are key
+        (dotRatio > 0.5 ? 15 : 0) +                          // mostly dots
+        (symmetry === 4 ? 20 : symmetry === 8 ? 18 : 0) +   // 4-fold is classic kawung
+        (regularity > 0.5 ? 15 : regularity > 0.3 ? 8 : 0) +
+        (significantColors <= 3 ? 8 : 0) +
+        (s.flowers === 0 ? 5 : 0),                           // no flowers = geometric
 
+      // MEGAMENDUNG: wave stamps + blue colors + horizontal flow
       megamendung:
-        (blueRatio > 0.4 ? 30 : blueRatio > 0.2 ? 20 : blueRatio > 0.1 ? 10 : 0) +
-        (s.waves * 3) +
-        (horizontalRatio > 0.35 ? 15 : 5) +
-        (significantColors >= 2 && significantColors <= 4 ? 8 : 0) +
-        (warmth < 0.35 ? 12 : 0) +
-        (coverage > 0.2 ? 5 : 0),
+        (s.waves >= 3 ? 25 : s.waves >= 1 ? 12 : 0) +       // waves are key
+        (waveRatio > 0.4 ? 15 : 0) +                         // mostly waves
+        (blueRatio > 0.4 ? 30 : blueRatio > 0.2 ? 20 : blueRatio > 0.08 ? 10 : 0) +
+        (horizontalRatio > 0.35 ? 10 : 0) +
+        (warmth < 0.35 ? 8 : 0),                             // cool temperature
 
+      // SEKARJAGAD: many colors + flower stamps + diverse tools + high coverage
       sekarjagad:
-        (significantColors >= 4 ? 25 : significantColors >= 3 ? 15 : 5) +
-        (s.flowers * 2) +
-        (coverage > 0.3 ? 15 : coverage > 0.15 ? 8 : 0) +
-        (regularity < 0.4 ? 12 : 5) + // irregular = diverse patterns
-        (s.colorsUsed.size >= 4 ? 15 : s.colorsUsed.size >= 3 ? 8 : 0) +
-        (s.dots + s.waves + s.flowers >= 5 ? 10 : 0),
+        (significantColors >= 5 ? 25 : significantColors >= 4 ? 20 : significantColors >= 3 ? 10 : 0) +
+        (s.colorsUsed.size >= 5 ? 20 : s.colorsUsed.size >= 4 ? 15 : s.colorsUsed.size >= 3 ? 8 : 0) +
+        (s.flowers >= 2 ? 15 : s.flowers >= 1 ? 8 : 0) +
+        (coverage > 0.3 ? 12 : coverage > 0.15 ? 6 : 0) +
+        (s.dots + s.waves + s.flowers >= 5 ? 10 : 0) +      // mixed tools
+        (regularity < 0.35 ? 8 : 0),                         // irregular = diverse
 
+      // TRUNTUM: dot stamps + high symmetry (6/8) + scattered + dark/gold
       truntum:
-        (s.dots * 3) +
-        (symmetry >= 6 ? 18 : symmetry >= 4 ? 12 : 0) +
-        (regularity > 0.4 ? 15 : 5) +
-        (coverage < 0.35 ? 10 : 0) + // scattered small dots = low coverage
-        (earthRatio > 0.15 ? 8 : 0) +
-        (darkRatio > 0.15 ? 8 : 0) +
-        (significantColors <= 3 ? 8 : 0),
+        (s.dots >= 3 ? 20 : s.dots >= 1 ? 10 : 0) +         // dots are key
+        (dotRatio > 0.5 ? 12 : 0) +                          // mostly dots
+        (symmetry >= 6 ? 25 : symmetry === 4 ? 5 : 0) +     // 6/8-fold = truntum hallmark
+        (coverage < 0.3 ? 12 : 0) +                          // scattered stars = low coverage
+        (regularity > 0.35 ? 10 : 0) +
+        (darkRatio > 0.1 ? 8 : 0) +
+        (significantColors <= 2 ? 8 : 0),
 
+      // LASEM: red color + flower/dot stamps + multi-color
       lasem:
-        (redRatio > 0.3 ? 30 : redRatio > 0.15 ? 20 : redRatio > 0.05 ? 10 : 0) +
-        (s.flowers * 2) +
+        (redRatio > 0.35 ? 35 : redRatio > 0.2 ? 25 : redRatio > 0.08 ? 12 : 0) +
+        (s.flowers >= 2 ? 15 : s.flowers >= 1 ? 8 : 0) +
+        (blueRatio > 0.08 && redRatio > 0.08 ? 15 : 0) +    // red + blue = classic lasem
         (significantColors >= 3 ? 10 : 0) +
-        (blueRatio > 0.1 && redRatio > 0.1 ? 15 : 0) + // red + blue combo
-        (coverage > 0.2 ? 8 : 0) +
-        (s.dots + s.waves > 0 ? 5 : 0),
+        (coverage > 0.2 ? 5 : 0) +
+        (s.dots + s.flowers >= 3 ? 8 : 0),
     };
 
     // Normalize & rank
@@ -533,14 +542,20 @@ function Lab() {
                 </div>
                 <div className="mt-1 text-right text-xs text-gold">{match.score}% {t("similarity", "kemiripan")}</div>
                 <p className="mt-4 text-sm text-foreground/70 leading-relaxed italic">"{match.reason}"</p>
-                <div className="mt-4">
-                  <BatikMotif
-                    motif={BATIKS.find((b) => b.id === match.id)!.motif}
-                    colors={BATIKS.find((b) => b.id === match.id)!.colors}
-                    size={240}
-                    animated={false}
+                <Link
+                  to="/batik/$id"
+                  params={{ id: match.id }}
+                  className="mt-4 block rounded-xl overflow-hidden border border-gold/30 hover:border-gold/60 transition-colors group"
+                >
+                  <img
+                    src={BATIKS.find((b) => b.id === match.id)!.heroImage}
+                    alt={match.name}
+                    className="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                </div>
+                  <div className="p-3 bg-background/60 text-center text-xs text-gold tracking-wider uppercase">
+                    {t("View Details →", "Lihat Detail →")}
+                  </div>
+                </Link>
               </motion.div>
             )}
           </div>
